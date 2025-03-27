@@ -1,0 +1,1 @@
+Visto che recentemente ho iniziato a giocare a DND ho sempre pensato di provare a sviluppare un piccolo programmino per permettere agli utenti di inserire i dati della propria scheda per il roll dei dadi , l'obiettivo è fare qualcosa di semplice e leggero per poi magari trasfigurarlo in un piccolo programmino desktop o un semplice bot di discord
