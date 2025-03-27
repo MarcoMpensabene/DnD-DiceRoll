@@ -1,3 +1,6 @@
+import random
+
+
 def parse_dice_notation(dice_notation: str) -> tuple:
     try:
         if "d" not in dice_notation:
@@ -14,9 +17,15 @@ def parse_dice_notation(dice_notation: str) -> tuple:
     except ValueError as e:
         print(f"Errore: {e}")  # Stampa l'errore senza interrompere il programma
         return None  # Ritorna None in caso di errore
-    
-    
-print(parse_dice_notation("3d20"))
+
+def roll_dice(Ndice: int , Nface: int) -> list:
+    roll_results = []
+    for _ in range(Ndice):
+        roll = random.randint(1, Nface)
+        roll_results.append(roll)
+    return roll_results # Restituisce una lista con i risultati dei dadi
+print(roll_dice(1,20))  # Tre dadi a 6 facce
+
 
 # print(parse_dice_notation("15d20"))  # Output: (3, 6)
 # print(parse_dice_notation("1d20")) # Output: (1, 20)
