@@ -1,46 +1,58 @@
 import random
+from character import load_all_characters
+from dice import parse_dice_notation, roll_dice_with_bonus
 
 
-def parse_dice_notation(dice_notation: str) -> tuple:
-    try:
-        if "d" not in dice_notation:
-            raise ValueError("Input non valido , inserire un valore del tipo 'NdM' dove N è il numero di dadi e M il numero di facce")
-        user_input = dice_notation.split('d') # divide l'input in due parti prima e dopo la "d"
-    
-        if len(user_input) != 2:
-            raise ValueError("Input non valido , inserir un valore del tipo 'NdM' dove N è il numero di dadi e M il numero di facce")
-        Ndice , Nface = int(user_input[0]), int(user_input[1]) # assegna i valori a Ndice e Nface
-        if Ndice <= 0 or Nface <= 1:
-            raise ValueError("Il numero di dadi deve essere maggiore di 0 e il numero di facce devono essere maggiori di 1")
-        return (Ndice , Nface) # Restituzione dei valori estratti dall'input utente
-    
-    except ValueError as e:
-        print(f"Errore: {e}")  # Stampa l'errore senza interrompere il programma
-        return None  # Ritorna None in caso di errore
 
-def roll_dice_with_bonus(num_dice: int, num_faces: int, stat_bonus: int) -> list:
-    results = []
-    for _ in range(num_dice):
-        roll = random.randint(1, num_faces)  # Tiro del dado
-        results.append(roll + stat_bonus)  # Aggiungiamo il bonus
-    return results
 
 def main():
-    #inserimento dei dati da parte dell'utente
+    # Carichiamo tutti i personaggi disponibili
+    characters = load_all_characters()
 
-    user_input = input("Inserisci il numero di dadi e il numero di facce (es. 2d20):").strip()
+    if not characters:
+        print("Nessuna scheda personaggio trovata. Controlla il file JSON.")
+        return
 
-    #interpretrazione dell'input
-    parsed_input = parse_dice_notation(user_input)
+    # Mostriamo i nomi dei personaggi disponibili
+    print("Personaggi disponibili:")
+    for name in characters.keys():
+        print(f"- {name}")
 
-    if parsed_input:
-        Ndice , Nface = parsed_input
-        #lacia i dati 
-        results = roll_dice(Ndice , Nface)
-        #risultati
-        print("I tuoi lanci : ", (results))
-    else:
-        print("Inserisci un'imput valido es : 3d6")
+    # L'utente sceglie un personaggio
+    chosen_name = input("Seleziona un personaggio digitando il suo nome: ").strip()
+
+    # Recuperiamo la scheda del personaggio scelto
+    character = characters.get(chosen_name)
+
+    if not character:
+        print("Errore: personaggio non trovato. Riprova.")
+        return
+
+    print(f"Personaggio selezionato: {chosen_name}")
+
+    while True:
+        # Richiesta input per il lancio dei dadi
+        dice_notation = input("\nInserisci la notazione dei dadi (es. 3d6) o 'exit' per uscire: ").strip()
+        if dice_notation.lower() == "exit":
+            print("Chiusura del programma...")
+            break
+
+        parsed_input = parse_dice_notation(dice_notation)
+
+        if parsed_input:
+            Ndice, Nface = parsed_input
+            
+            # Mostriamo le statistiche disponibili e facciamo scegliere una
+            print("Statistiche disponibili:", ", ".join(character.keys()))
+            chosen_stat = input("A quale statistica vuoi sommare il tiro? ").strip()
+
+            # Recuperiamo il bonus della statistica scelta
+            stat_bonus = character.get(chosen_stat, 0)  # Se la statistica non esiste, usa 0
+            
+            results = roll_dice_with_bonus(Ndice, Nface, stat_bonus)
+            print(f"Risultati del lancio (con bonus {stat_bonus} a {chosen_stat}): {results}")
+        else:
+            print("Errore: notazione non valida, riprova.")
 
 if __name__ == "__main__":
     main()

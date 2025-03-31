@@ -1,9 +1,18 @@
 {
-    "nome": "Kraftis",
-    "Forza": 3,
-    "Destrezza": 2,
-    "Costituzione": 1,
-    "Intelligenza": 4,
-    "Saggezza": 5,
-    "Carisma": 0
+    "Kraftis": {
+        "For": 1,
+        "Des": 2,
+        "Con": 2,
+        "Int": 0,
+        "Sag": 2,
+        "Car": 1,
+        "Acrobazia" : 4,
+        "Atletica" : 3,
+        "Percezione": 4,
+        "Sopravvivenza": 4,
+        "Competenza": 2,
+        "Salvezza Dex": 4,
+        "Salvezza For": 3,
+        "Iniziativa": 2
+    }
 }
