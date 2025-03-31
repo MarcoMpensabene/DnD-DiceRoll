@@ -18,14 +18,29 @@ def parse_dice_notation(dice_notation: str) -> tuple:
         print(f"Errore: {e}")  # Stampa l'errore senza interrompere il programma
         return None  # Ritorna None in caso di errore
 
-def roll_dice(Ndice: int , Nface: int) -> list:
-    roll_results = []
-    for _ in range(Ndice):
-        roll = random.randint(1, Nface)
-        roll_results.append(roll)
-    return roll_results # Restituisce una lista con i risultati dei dadi
-print(roll_dice(1,20))  # Tre dadi a 6 facce
+def roll_dice_with_bonus(num_dice: int, num_faces: int, stat_bonus: int) -> list:
+    results = []
+    for _ in range(num_dice):
+        roll = random.randint(1, num_faces)  # Tiro del dado
+        results.append(roll + stat_bonus)  # Aggiungiamo il bonus
+    return results
 
+def main():
+    #inserimento dei dati da parte dell'utente
 
-# print(parse_dice_notation("15d20"))  # Output: (3, 6)
-# print(parse_dice_notation("1d20")) # Output: (1, 20)
+    user_input = input("Inserisci il numero di dadi e il numero di facce (es. 2d20):").strip()
+
+    #interpretrazione dell'input
+    parsed_input = parse_dice_notation(user_input)
+
+    if parsed_input:
+        Ndice , Nface = parsed_input
+        #lacia i dati 
+        results = roll_dice(Ndice , Nface)
+        #risultati
+        print("I tuoi lanci : ", (results))
+    else:
+        print("Inserisci un'imput valido es : 3d6")
+
+if __name__ == "__main__":
+    main()
